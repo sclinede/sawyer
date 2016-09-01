@@ -101,15 +101,15 @@ module Sawyer
       attrs.each do |attribute|
         class_eval do
           define_method attribute do
-            @attrs[attribute.to_sym]
+            @attrs[attribute]
           end
 
           define_method "#{attribute}=" do |value|
-            @attrs[attribute.to_sym] = value
+            @attrs[attribute] = value
           end
 
           define_method "#{attribute}?" do
-            !!@attrs[attribute.to_sym]
+            !!@attrs[attribute]
           end
         end
       end
