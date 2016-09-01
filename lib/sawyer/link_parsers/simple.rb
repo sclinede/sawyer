@@ -3,8 +3,10 @@ module Sawyer
 
     class Simple
 
-      LINK_REGEX = /_?url$/
-
+      LINK_REGEX = /_?url$/.freeze
+      URL = 'url'.freeze
+      SELF = 'self'.freeze
+      EMPTY = ''.freeze
 
       # Public: Parses simple *_url style links on resources
       #
@@ -14,9 +16,10 @@ module Sawyer
       def parse(data)
 
         links = {}
-        inline_links = data.keys.select {|k| k.to_s[LINK_REGEX] }
-        inline_links.each do |key|
-          rel_name = key.to_s == 'url' ? 'self' : key.to_s.gsub(LINK_REGEX, '')
+        data.keys.each do |key|
+          key_str = key.to_s.freeze
+          next unless key_str[LINK_REGEX]
+          rel_name = key_str == URL ? SELF : key_str.gsub(LINK_REGEX, EMPTY).freeze
           links[rel_name.to_sym] = data[key]
         end
 
